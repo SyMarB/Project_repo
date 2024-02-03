@@ -35,3 +35,18 @@ colnames(countdata) <- substr(colnames(countdata),start=1,stop=7)
 table(colnames(countdata)==sampleinfo$SampleName)
 
 #Next we’ll create a DGEList object. This is an object used by edgeR to store count data. It has a number of slots for storing various parameters about the data.
+y <- DGEList(countdata)
+
+group <- paste(sampleinfo$CellType,sampleinfo$Status,sep=".")
+# Take a look
+group
+# Convert to factor
+group <- factor(group)
+# Take another look.
+group
+
+# Add the group information into the DGEList
+y$samples$group <- group
+y$samples
+
+ann <- select(org.Mm.eg.db,keys=rownames(y$counts),columns=c("ENTREZID","SYMBOL","GENENAME"))
