@@ -4,7 +4,7 @@ YAWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_
 embRBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_emb.csv")
 YARBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_YA.csv")
 
-#embryo data, WDR5 mutant vs NA
+# embryo data, WDR5 mutant vs NA
 # Rearraging and renaming columns. Adjusted P values were ignored. Not sure what statistic technique was used to obtained normalised values but I used those in the new table.
 embWDR5_NEW<-embWDR5
 embWDR5_NEW$Chrom.No<-substring(embWDR5$chrom, 4)
@@ -12,13 +12,13 @@ embWDR5_NEW$GeneID<-substring(embWDR5$Wormbase.WBGene_UID, 18)
 embWDR5_NEW<-embWDR5_NEW[-c(2:13,16,19,20,1)]
 embWDR5_NEW<-embWDR5_NEW[,c(9,1,2,3,4,8,5,6,7)]
 names(embWDR5_NEW)[c(2,3,4,5)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change_Log2", "P.Value")
-#Sort GeneID by ascending order
+# Sort GeneID by ascending order
 embWDR5_NEW$GeneID<-as.numeric(embWDR5_NEW$GeneID)
 embWDR5_NEW<-embWDR5_NEW[order(embWDR5_NEW$GeneID),]
-#saving table as a csv file
+# saving table as a csv file
 write.csv(embWDR5_NEW, "wdr5_vs_N2_emb_NEW.csv",row.names = FALSE)
 
-#Steps repeated for embRBBP5, YAWDR5 and YARBBP5
+# Steps repeated for embRBBP5, YAWDR5 and YARBBP5
 
 embRBBP5_NEW<-embRBBP5
 embRBBP5_NEW$Chrom.No<-substring(embRBBP5$chrom, 4)
@@ -26,16 +26,16 @@ embRBBP5_NEW$GeneID<-substring(embRBBP5$Wormbase.WBGene_UID, 18)
 embRBBP5_NEW<-embRBBP5_NEW[-c(2:13,16,19,20,1)]
 embRBBP5_NEW<-embRBBP5_NEW[,c(9,1,2,3,4,8,5,6,7)]
 names(embRBBP5_NEW)[c(2,3,4,5)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change_Log2", "P.Value")
-#Sort GeneID by ascending order
+# Sort GeneID by ascending order
 embRBBP5_NEW$GeneID<-as.numeric(embRBBP5_NEW$GeneID)
 embRBBP5_NEW<-embRBBP5_NEW[order(embRBBP5_NEW$GeneID),]
-#saving table as a csv file
+# saving table as a csv file
 write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
 
-#YA dataset has missing values
+# YA dataset has missing values
 
-#sum(is.na(YAWDR5)) = 4107
-#sum(is.na(YARBBP5)) = 1877
+# sum(is.na(YAWDR5)) = 4107
+# sum(is.na(YARBBP5)) = 1877
 
 YAWDR5_NEW<-YAWDR5
 YAWDR5_NEW$Chrom.No<-substring(YAWDR5$chrom,4)
@@ -43,10 +43,10 @@ YAWDR5_NEW$GeneID<-substring(YAWDR5$ID,9)
 YAWDR5_NEW<-YAWDR5_NEW[-c(2:13,16,18,19,21,22,26,1)]
 YAWDR5_NEW<-YAWDR5_NEW[,c(11,1,2,3,4,10,5,6,7,8,9)]
 names(YAWDR5_NEW)[c(2,3,4,5)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change_Log2", "P.Value")
-#Sort GeneID by ascending order
+# Sort GeneID by ascending order
 YAWDR5_NEW$GeneID<-as.numeric(YAWDR5_NEW$GeneID)
 YAWDR5_NEW<-YAWDR5_NEW[order(YAWDR5_NEW$GeneID),]
-#saving table as a csv file
+# saving table as a csv file
 write.csv(YAWDR5_NEW, "wdr5_vs_N2_YA_NEW.csv",row.names = FALSE)
 
 YARBBP5_NEW<-YARBBP5
@@ -55,8 +55,8 @@ YARBBP5_NEW$GeneID<-substring(YARBBP5$Gene.ID,9)
 YARBBP5_NEW<-YARBBP5_NEW[-c(2:13,16,18,19,21,22,26,1)]
 YARBBP5_NEW<-YARBBP5_NEW[,c(11,1,2,3,4,10,5,6,7,8,9)]
 names(YARBBP5_NEW)[c(2,3,4,5)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change_Log2", "P.Value")
-#Sort GeneID by ascending order
+# Sort GeneID by ascending order
 YARBBP5_NEW$GeneID<-as.numeric(YARBBP5_NEW$GeneID)
 YARBBP5_NEW<-YARBBP5_NEW[order(YARBBP5_NEW$GeneID),]
-#saving table as a csv file
+# saving table as a csv file
 write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
