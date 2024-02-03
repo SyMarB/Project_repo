@@ -1,0 +1,37 @@
+R stats for RNA seq
+
+#types of packages
+library(edgeR)
+library(limma)
+library(Glimma)
+library(org.Mm.eg.db)
+library(gplots)
+library(RColorBrewer)
+library(NMF)
+
+# Read the data into R
+seqdata <- read.delim("C:/Users/User/Desktop/RProject C. elegans/Mouse_mammary_gland_dataset.txt", stringsAsFactors = FALSE)
+# Read the sample information into R
+sampleinfo <- read.delim("C:/Users/User/Desktop/RProject C. elegans/SampleInfo.txt", stringsAsFactors = TRUE)
+View(seqdata)
+head(seqdata)
+
+# sample dimension
+dim(seqdata)
+
+# Remove first two columns from seqdata
+countdata <- seqdata[,-(1:2)]
+# Look at the output
+head(countdata)
+
+# Store EntrezGeneID as rownames
+rownames(countdata) <- seqdata[,1]
+# Look at the output
+head(countdata)
+
+# using substr, you extract the characters starting at position 1 and stopping at position 7 of the colnames
+colnames(countdata) <- substr(colnames(countdata),start=1,stop=7)
+#check if tables are equal
+table(colnames(countdata)==sampleinfo$SampleName)
+
+#Next we’ll create a DGEList object. This is an object used by edgeR to store count data. It has a number of slots for storing various parameters about the data.

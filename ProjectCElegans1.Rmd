@@ -1,9 +1,50 @@
+# Inserting csv dataset files into dataframes
 embWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_emb.csv")
 YAWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_YA.csv")
 embRBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_emb.csv")
 YARBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_YA.csv")
 
-embWDR5_NEW<-embWDR5a
+#embryo data, WDR5 mutant vs NA
+# Rearraging and renaming columns. Adjusted P values were ignored. Not sure what statistic technique was used to obtained normalised values but I used those in the new table.
+embWDR5_NEW<-embWDR5
+embWDR5_NEW$Chrom.No<-substring(embWDR5$chrom, 4)
+embWDR5_NEW$GeneID<-substring(embWDR5$Wormbase.WBGene_UID, 18)
 embWDR5_NEW<-embWDR5_NEW[-c(2:13,19,7,1)]
-embWDR5_NEW<-embWDR5_NEW[,c(9,1,2,3,4,5,10,6,7,8)]
+embWDR5_NEW<-embWDR5_NEW[,c(10,1,2,3,4,5,9,6,7,8)]
 names(embWDR5_NEW)[c(2,3,4,5,6)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change", "Fold.Change_Log2", "P.Value")
+#saving table as a csv file
+write.csv(embWDR5_NEW, "wdr5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+#Steps repeated for embRBBP5, YAWDR5 and YARBBP5
+
+embRBBP5_NEW<-embRBBP5
+embRBBP5_NEW$Chrom.No<-substring(embRBBP5$chrom, 4)
+embRBBP5_NEW$GeneID<-substring(embRBBP5$Wormbase.WBGene_UID, 18)
+embRBBP5_NEW<-embRBBP5_NEW[-c(2:13,19,20,1)]
+embRBBP5_NEW<-embRBBP5_NEW[,c(10,1,2,3,4,5,9,6,7,8)]
+names(embRBBP5_NEW)[c(2,3,4,5,6)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change", "Fold.Change_Log2", "P.Value")
+#saving table as a csv file
+write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+embRBBP5_NEW<-embRBBP5
+embRBBP5_NEW$Chrom.No<-substring(embRBBP5$chrom, 4)
+embRBBP5_NEW$GeneID<-substring(embRBBP5$Wormbase.WBGene_UID, 18)
+embRBBP5_NEW<-embRBBP5_NEW[-c(2:13,19,20,1)]
+embRBBP5_NEW<-embRBBP5_NEW[,c(10,1,2,3,4,5,9,6,7,8)]
+names(embRBBP5_NEW)[c(2,3,4,5,6)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change", "Fold.Change_Log2", "P.Value")
+#saving table as a csv file
+write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+#YA dataset has missing values
+
+#sum(is.na(YAWDR5)) = 4107
+#sum(is.na(YARBBP5)) = 1877WHICH
+
+YAWDR5_NEW<-YAWDR5
+YAWDR5_NEW$Chrom.No<-substring(YAWDR5$chrom, 4)
+YAWDR5_NEW$GeneID<-substring(YAWDR5$Wormbase.WBGene_UID, 18)
+> embRBBP5_NEW<-embRBBP5_NEW[-c(2:13,19,20,1)]
+> embRBBP5_NEW<-embRBBP5_NEW[,c(10,1,2,3,4,5,9,6,7,8)]
+> names(embRBBP5_NEW)[c(2,3,4,5,6)]<-c("N2.Mean_N", "WDR5.Mean_N", "Fold.Change", "Fold.Change_Log2", "P.Value")
+> #saving table as a csv file
+> write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
