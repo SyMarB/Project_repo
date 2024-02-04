@@ -60,3 +60,44 @@ YARBBP5_NEW$GeneID<-as.numeric(YARBBP5_NEW$GeneID)
 YARBBP5_NEW<-YARBBP5_NEW[order(YARBBP5_NEW$GeneID),]
 # saving table as a csv file
 write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
+
+#-----------------------------------------------------------------
+
+# Following packages are loaded
+packages1 <- c("pacman","tidyverse","scales","ggrepel")
+lapply(packages1,library,character.only=TRUE)
+
+# Create new dataset with categorical column of up and down regulated genes
+#Fold.Change_Log2 >= 1and -1 chosen because threshold for non log values are 2 and 0.5
+embWDR5_NEW_genetype <- embWDR5_NEW %>% mutate(gene_type = case_when(Fold.Change_Log2 >= 1 & P.Value.Ad <= 0.05 ~ "up", Fold.Change_Log2 <= -1 & P.Value.Ad <= 0.05 ~ "down", TRUE ~ "ns"))
+embWDR5_G.Ex <-(c(embWDR5_NEW_genetype$Gene.ID, embWDR5_NEW_genetype$gene_type))
+
+# Volcano plot for embWDR5_NEW_genetype
+vol_embWDR5_NEW <- ggplot(data = embWDR5_NEW_genetype,(aes(x = Fold.Change_Log2, y = -log10(P.Value.Ad)))) + geom_point()
+# add threshold lines
+vol_embWDR5_NEW <- vol_embWDR5_NEW + geom_hline(yintercept = -log10(0.05),linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)),linetype = "dashed") 
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embWDR5_NEW %>% pull(Fold.Change_Log2) %>% min() %>% floor() 
+embWDR5_NEW %>% pull(Fold.Change_Log2) %>% max() %>% ceiling()
+# > [1]-12 and [1]10
+max(abs(-12), abs(10))
+#> [1] 12
+ 
+ vol_embWDR5_NEW <- vol_embWDR5_NEW + 
+  geom_hline(yintercept = -log10(0.05),linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),linetype = "dashed") + 
+  xlim(-12, 12) 
+  
+# modify tick intervalto have 2 intervals in x-axis
+vol_embWDR5_NEW <- vol_embWDR5_NEW + 
+scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12, 12)) 
+
+# Add colour, size and alpha (transparency) to volcano plot
+#alpha controls transparency
+cols <- c("up" = "#F39B7F", "down" = "#4DBBD5", "ns" = "grey") 
+sizes <- c("up" = 2, "down" = 2, "ns" = 1) 
+alphas <- c("up" = 1, "down" = 1, "ns" = 0.5)
+
+vol_embWDR5_NEW <- embWDR5_NEW_genetype %>%             ggplot(aes(x = (Fold.Change_Log2), y = -log10(P.Value.Ad),       fill = gene_type,                                               size = gene_type,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black") + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12, 12))
+vol_embWDR5_NEW
