@@ -70,7 +70,7 @@ lapply(packages1,library,character.only=TRUE)
 # Create new dataset with categorical column of up and down regulated genes
 #Fold.Change_Log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5
 embWDR5_NEW_genetype <- embWDR5_NEW %>%                         mutate(gene_type = case_when(Fold.Change_Log2 >= 1 & P.Value.Ad <= 0.05 ~ "up", Fold.Change_Log2 <= -1 & P.Value.Ad <= 0.05 ~ "down", TRUE ~ "ns"))
-embWDR5_G.Ex <-(c(embWDR5_NEW_genetype$Gene.ID, embWDR5_NEW_genetype$gene_type))
+embWDR5_G.Ex <-subset(embWDR5_NEW_genetype,select=c(GeneID, gene_type))
 
 # Volcano plot for embWDR5_NEW_genetype
 vol_embWDR5_NEW <- ggplot(data = embWDR5_NEW_genetype,(aes(x = Fold.Change_Log2, y = -log10(P.Value.Ad)))) + geom_point()
@@ -102,12 +102,13 @@ vol_embWDR5_NEW <- embWDR5_NEW_genetype %>%             ggplot(aes(x = (Fold.Cha
 vol_embWDR5_NEW
 
 # repeat for other datasets
+
 #-----------------------------------------------------------------
 
 # Create new dataset with categorical column of up and down regulated genes
 #Fold.Change_Log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5
 embRBBP5_NEW_genetype <- embRBBP5_NEW %>%                         mutate(gene_type = case_when(Fold.Change_Log2 >= 1 & P.Value.Ad <= 0.05 ~ "up", Fold.Change_Log2 <= -1 & P.Value.Ad <= 0.05 ~ "down", TRUE ~ "ns"))
-embRBBP5_G.Ex <-(c(embRBBP5_NEW_genetype$Gene.ID, embRBBP5_NEW_genetype$gene_type))
+embRBBP5_G.Ex <-subset(embRBBP5_NEW_genetype,select=c(GeneID, gene_type))
 
 # identify max and min to make symmetrical plot
 # floor and ceiling function is to round off number to nearest lower or higher value
@@ -123,7 +124,7 @@ vol_embRBBP5_NEW
 # Create new dataset with categorical column of up and down regulated genes
 #Fold.Change_Log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5, na.omit is to remove na data
 YAWDR5_NEW_genetype <- na.omit(YAWDR5_NEW) %>%                         mutate(gene_type = case_when(Fold.Change_Log2 >= 1 & P.Value.Ad <= 0.05 ~ "up", Fold.Change_Log2 <= -1 & P.Value.Ad <= 0.05 ~ "down", TRUE ~ "ns"))
-YAWDR5_G.Ex <-(c(YAWDR5_NEW_genetype$Gene.ID, YAWDR5_NEW_genetype$gene_type))
+YAWDR5_G.Ex <-subset(YAWDR5_NEW_genetype,select=c(GeneID, gene_type))
 
 # identify max and min to make symmetrical plot
 # floor and ceiling function is to round off number to nearest lower or higher value, na.rm = TRUE is to exclude missing data if there is
@@ -139,7 +140,7 @@ vol_YAWDR5_NEW
 # Create new dataset with categorical column of up and down regulated genes
 #Fold.Change_Log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5, na.omit is to remove na data
 YARBBP5_NEW_genetype <- na.omit(YARBBP5_NEW) %>%                         mutate(gene_type = case_when(Fold.Change_Log2 >= 1 & P.Value.Ad <= 0.05 ~ "up", Fold.Change_Log2 <= -1 & P.Value.Ad <= 0.05 ~ "down", TRUE ~ "ns"))
-YARBBP5_G.Ex <-(c(YARBBP5_NEW_genetype$Gene.ID, YARBBP5_NEW_genetype$gene_type))
+YARBBP5_G.Ex <-subset(YARBBP5_NEW_genetype,select=c(GeneID, gene_type))
 
 # identify max and min to make symmetrical plot
 # floor and ceiling function is to round off number to nearest lower or higher value, na.rm = TRUE is to exclude missing data if there is
