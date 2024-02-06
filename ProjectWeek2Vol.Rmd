@@ -1,0 +1,160 @@
+# Inserting csv dataset files into dataframes
+embWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_emb.csv")
+YAWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_YA.csv")
+embRBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_emb.csv")
+YARBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_YA.csv")
+
+#verify data organisation
+head(embWDR5);names(embWDR5);sapply(embWDR5,class);nrow(embWDR5)
+head(embRBBP5);names(embRBBP5);sapply(embRBBP5,class);nrow(embRBBP5)
+head(YAWDR5);names(YAWDR5);sapply(YAWDR5,class);nrow(YAWDR5)
+head(YARBBP5);names(YARBBP5);sapply(YARBBP5,class);nrow(YARBBP5)
+
+# embryo data, WDR5 mutant vs NA
+# Rearraging and renaming columns. Adjusted P values were ignored. Not sure what statistic technique was used to obtained normalised values but I used those in the new table.
+
+#generating new and working dataset
+embWDR5_NEW<-embWDR5
+embWDR5_NEW$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 16)
+embWDR5_NEW<-embWDR5_NEW[-c(1)]
+embWDR5_NEW<-embWDR5_NEW[,c(23,1:22)]
+names(embWDR5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N", "wdr5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+# Sort WBGene by ascending order
+embWDR5_NEW$WBGene<-as.numeric(embWDR5_NEW$WBGene)
+embWDR5_NEW<-embWDR5_NEW[order(embWDR5_NEW$WBGene),]
+# saving table as a csv file
+write.csv(embWDR5_NEW, "wdr5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+# Steps repeated for embRBBP5, YAWDR5 and YARBBP5
+
+embRBBP5_NEW<-embRBBP5
+embRBBP5_NEW$WBGene<-substring(embRBBP5$Wormbase.WBGene_UID, 16)
+embRBBP5_NEW<-embRBBP5_NEW[-c(1)]
+embRBBP5_NEW<-embRBBP5_NEW[,c(23,1:22)]
+names(embRBBP5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repl2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N", "rbbp5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+# Sort WBGene by ascending order
+embRBBP5_NEW$WBGene<-as.numeric(embRBBP5_NEW$WBGene)
+embRBBP5_NEW<-embRBBP5_NEW[order(embRBBP5_NEW$WBGene),]
+# saving table as a csv file
+write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+# YA dataset has missing values
+
+# sum(is.na(YAWDR5)) = 4107
+# sum(is.na(YARBBP5)) = 1877
+
+YAWDR5_NEW<-YAWDR5
+YAWDR5_NEW$WBGene<-substring(YAWDR5$ID,7)
+YAWDR5_NEW<-YAWDR5_NEW[-c(1)]
+YAWDR5_NEW<-YAWDR5_NEW[,c(28,1:27)]
+names(YAWDR5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N","wdr5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+# Sort WBGene by ascending order
+YAWDR5_NEW$WBGene<-as.numeric(YAWDR5_NEW$WBGene)
+YAWDR5_NEW<-YAWDR5_NEW[order(YAWDR5_NEW$WBGene),]
+# saving table as a csv file
+write.csv(YAWDR5_NEW, "wdr5_vs_N2_YA_NEW.csv",row.names = FALSE)
+
+YARBBP5_NEW<-YARBBP5
+YARBBP5_NEW$WBGene<-substring(YARBBP5$Gene.ID,7)
+YARBBP5_NEW<-YARBBP5_NEW[-c(1)]
+YARBBP5_NEW<-YARBBP5_NEW[,c(28,1:27)]
+names(YARBBP5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repll2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N","rbbp5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+# Sort WBGene by ascending order
+YARBBP5_NEW$WBGene<-as.numeric(YARBBP5_NEW$WBGene)
+YARBBP5_NEW<-YARBBP5_NEW[order(YARBBP5_NEW$WBGene),]
+# saving table as a csv file
+write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
+
+
+#-----------------------------------------------------------------
+
+# Following packages are loaded
+packages1 <- c("pacman","tidyverse","scales","ggrepel")
+lapply(packages1,library,character.only=TRUE)
+
+# Create new dataset with categorical column of up and down regulated genes
+#fold.change_log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5
+embWDR5_NEW_genetype <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue <= 0.05 ~ "down", TRUE ~ "ns"))
+embWDR5_G.Ex <-subset(embWDR5_NEW_genetype,select=c(WBGene, gene_type))
+
+# Volcano plot for embWDR5_NEW_genetype
+vol_embWDR5_NEW <- ggplot(data = embWDR5_NEW_genetype,(aes(x = fold.change_log2, y = -log10(pvalue)))) + geom_point()
+# add threshold lines
+vol_embWDR5_NEW <- vol_embWDR5_NEW +                              geom_hline(yintercept = -log10(0.05),linetype = "dashed") + geom_vline(xintercept = c(log2(0.5),                            log2(2)),linetype = "dashed") 
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embWDR5_NEW %>% pull(fold.change_log2) %>% min() %>% floor() 
+embWDR5_NEW %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-12 and [1]10
+max(abs(-12), abs(10))
+#> [1] 12
+ 
+vol_embWDR5_NEW <- vol_embWDR5_NEW + 
+geom_hline(yintercept = -log10(0.05),linetype = "dashed") + 
+geom_vline(xintercept = c(log2(0.5), log2(2)),linetype = "dashed") + xlim(-12, 12) 
+  
+# modify tick interval to have 2 intervals in x-axis
+vol_embWDR5_NEW <- vol_embWDR5_NEW + 
+scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12, 12)) 
+
+# Add colour, size and alpha (transparency) to volcano plot
+#alpha controls transparency
+cols <- c("up" = "#F39B7F", "down" = "#4DBBD5", "ns" = "grey") 
+sizes <- c("up" = 2, "down" = 2, "ns" = 1) 
+alphas <- c("up" = 1, "down" = 1, "ns" = 0.5)
+
+vol_embWDR5_NEW <- embWDR5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue),       
+fill = gene_type,                                               size = gene_type,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black") + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12))
+vol_embWDR5_NEW
+
+# repeat for other datasets
+
+#-----------------------------------------------------------------
+
+# Create new dataset with categorical column of up and down regulated genes
+#fold.change_log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5
+embRBBP5_NEW_genetype <- embRBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue <= 0.05 ~ "down", TRUE ~ "ns"))
+embRBBP5_G.Ex <-subset(embRBBP5_NEW_genetype,select=c(WBGene, gene_type))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embRBBP5_NEW %>% pull(fold.change_log2) %>% min() %>% floor() 
+embRBBP5_NEW %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-8 and [1]11
+max(abs(-8), abs(11))
+#> [1] 11
+
+vol_embRBBP5_NEW <- embRBBP5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue),         fill = gene_type,                                               size = gene_type,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black") + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-11, 11, 2)), limits = c(-11,11))
+vol_embRBBP5_NEW
+
+# Create new dataset with categorical column of up and down regulated genes
+#fold.change_log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5, na.omit is to remove na data
+YAWDR5_NEW_genetype <- na.omit(YAWDR5_NEW) %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue <= 0.05 ~ "down", TRUE ~ "ns"))
+YAWDR5_G.Ex <-subset(YAWDR5_NEW_genetype,select=c(WBGene, gene_type))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value, na.rm = TRUE is to exclude missing data if there is
+YAWDR5_NEW %>% pull(fold.change_log2) %>% min(na.rm = TRUE) %>% floor() 
+YAWDR5_NEW %>% pull(fold.change_log2) %>% max(na.rm = TRUE) %>% ceiling()
+# > [1]-10 and [1]12
+max(abs(-12), abs(10))
+#> [1] 12
+
+vol_YAWDR5_NEW <- YAWDR5_NEW_genetype %>%              ggplot(aes(x = (fold.change_log2), y = -log10(pvalue),         fill = gene_type,                                               size = gene_type,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black") + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12))
+vol_YAWDR5_NEW
+
+# Create new dataset with categorical column of up and down regulated genes
+#fold.change_log2 >= 1 and -1 chosen because threshold for non log values are 2 and 0.5, na.omit is to remove na data
+YARBBP5_NEW_genetype <- na.omit(YARBBP5_NEW) %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue <= 0.05 ~ "down", TRUE ~ "ns"))
+YARBBP5_G.Ex <-subset(YARBBP5_NEW_genetype,select=c(WBGene, gene_type))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value, na.rm = TRUE is to exclude missing data if there is
+YARBBP5_NEW %>% pull(fold.change_log2) %>% min(na.rm = TRUE) %>% floor() 
+YARBBP5_NEW %>% pull(fold.change_log2) %>% max(na.rm = TRUE) %>% ceiling() 
+# > [1]-9 and [1]14
+max(abs(-12), abs(10))
+#> [1] 14
+
+vol_YARBBP5_NEW <- YARBBP5_NEW_genetype %>%              ggplot(aes(x = (fold.change_log2), y = -log10(pvalue),         fill = gene_type,                                               size = gene_type,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black") + geom_hline(yintercept = -log10(0.05), linetype = "dashed") + geom_vline(xintercept = c(log2(0.5), log2(2)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-14, 14, 2)), limits = c(-14,14))
+vol_YARBBP5_NEW
