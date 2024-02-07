@@ -19,9 +19,7 @@ embWDR5_NEW$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 16)
 embWDR5_NEW<-embWDR5_NEW[-c(1)]
 embWDR5_NEW<-embWDR5_NEW[,c(23,1:22)]
 names(embWDR5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N", "wdr5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
-# Sort WBGene by ascending order
-embWDR5_NEW$WBGene<-as.numeric(embWDR5_NEW$WBGene)
-embWDR5_NEW<-embWDR5_NEW[order(embWDR5_NEW$WBGene),]
+
 # saving table as a csv file
 write.csv(embWDR5_NEW, "wdr5_vs_N2_emb_NEW.csv",row.names = FALSE)
 
@@ -32,9 +30,7 @@ embRBBP5_NEW$WBGene<-substring(embRBBP5$Wormbase.WBGene_UID, 16)
 embRBBP5_NEW<-embRBBP5_NEW[-c(1)]
 embRBBP5_NEW<-embRBBP5_NEW[,c(23,1:22)]
 names(embRBBP5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repl2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N", "rbbp5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
-# Sort WBGene by ascending order
-embRBBP5_NEW$WBGene<-as.numeric(embRBBP5_NEW$WBGene)
-embRBBP5_NEW<-embRBBP5_NEW[order(embRBBP5_NEW$WBGene),]
+
 # saving table as a csv file
 write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
 
@@ -48,9 +44,7 @@ YAWDR5_NEW$WBGene<-substring(YAWDR5$ID,7)
 YAWDR5_NEW<-YAWDR5_NEW[-c(1)]
 YAWDR5_NEW<-YAWDR5_NEW[,c(28,1:27)]
 names(YAWDR5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N","wdr5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
-# Sort WBGene by ascending order
-YAWDR5_NEW$WBGene<-as.numeric(YAWDR5_NEW$WBGene)
-YAWDR5_NEW<-YAWDR5_NEW[order(YAWDR5_NEW$WBGene),]
+
 # saving table as a csv file
 write.csv(YAWDR5_NEW, "wdr5_vs_N2_YA_NEW.csv",row.names = FALSE)
 
@@ -59,9 +53,7 @@ YARBBP5_NEW$WBGene<-substring(YARBBP5$Gene.ID,7)
 YARBBP5_NEW<-YARBBP5_NEW[-c(1)]
 YARBBP5_NEW<-YARBBP5_NEW[,c(28,1:27)]
 names(YARBBP5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repll2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N","rbbp5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
-# Sort WBGene by ascending order
-YARBBP5_NEW$WBGene<-as.numeric(YARBBP5_NEW$WBGene)
-YARBBP5_NEW<-YARBBP5_NEW[order(YARBBP5_NEW$WBGene),]
+
 # saving table as a csv file
 write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
 

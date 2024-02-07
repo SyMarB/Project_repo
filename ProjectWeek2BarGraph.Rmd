@@ -1,0 +1,236 @@
+# Create bar graphs showing different fold change log values
+
+# Make new dataframe for making new columns containing up and down regulated genes with modified thresholds
+# fold.change.log2>=1/-1 and pvalue=0.05
+changea <-1;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+#count number of up and down regulated genes
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down       1321
+2 ns        11799
+3 up         3807
+# 1321+3807= 5128 genes
+
+# fold.change.log2>=1.5/-1.5 and pvalue=0.05
+changea <-1.5;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+#count number of up and down regulated genes
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down        400
+2 ns        13718
+3 up         2809
+# 400+2809= 3209 genes
+
+# fold.change.log2>=2/-2 and pvalue=0.05
+changea <-2;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down        165
+2 ns        14949
+3 up         1813
+# 165+1813= 1978 genes
+
+# fold.change.log2>=2.5/-2.5 and pvalue=0.05
+changea <-2.5;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down        106
+2 ns        15790
+3 up         1031
+106+1031= 1137
+
+# fold.change.log2>=3/-3 and pvalue=0.05
+changea <-3;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down         82
+2 ns        16278
+3 up          567
+# 82+567= 649 genes
+
+# fold.change.log2>=3/-3 and pvalue=0.01
+changea <-3;changeb<-0.01; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down         68
+2 ns        16415
+3 up          444
+68+444= 512 genes
+
+# fold.change.log2>=3/-3 and pvalue=0.005
+changea <-3;changeb<-0.005; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down         58
+2 ns        16478
+3 up          391
+58+391= 449 genes
+
+changea <-3;changeb<-0.001; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+> embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+# A tibble: 3 × 2
+# Groups:   gene_type [3]
+  gene_type     n
+  <chr>     <int>
+1 down         45
+2 ns        16588
+3 up          294
+45+294= 339 genes
+
+Thresholds<-c("1/0.05", "1.5/0.05", "2/0.05", "2.5/0.05", "3/0.05", "3/0.01", "3/0.005", "3/0.001")
+Genes_up_and_down_regulated<-c(5128, 3209, 1978, 1137, 649, 512, 449,339)
+embWDR5thresholds<-data.frame(Thresholds,Genes_up_and_down_regulated)
+#make bar chart
+
+embWDR5thresholds %>%                                     mutate(Thresholds = fct_reorder(Thresholds,desc(Genes_up_and_down_regulated))) %>% ggplot(aes(x=Thresholds,y=Genes_up_and_down_regulated))+geom_bar(stat="identity")+ theme(axis.text.x=element_text(size=10
+))
+
+# Repeated for other conditions
+#embRBBP5 Log2_1_pval_0.05
+1 down        176
+2 ns        14505
+3 up         2328   (2504)
+
+#embRBBP5 Log2_1.5_pval_0.05
+1 down         79
+2 ns        15397
+3 up         1533   (1612)
+
+#embRBBP5 Log2_2_pval_0.05
+1 down         35
+2 ns        16059
+3 up          915   (950)
+
+#embRBBP5 Log2_2.5_pval_0.05
+1 down         24
+2 ns        16437
+3 up          548   (572)
+
+#embRBBP5 Log2_3_pval_0.05
+1 down         14
+2 ns        16654
+3 up          341   (355)
+
+#embRBBP5 Log2_3_pval_0.01
+1 down         10
+2 ns        16760
+3 up          239   (249)
+
+#embRBBP5 Log2_3_pval_0.005
+1 down          8
+2 ns        16792
+3 up          209   (217)
+
+#embRBBP5 Log2_3_pval_0.001
+1 down          7
+2 ns        16842
+3 up          160   (167)
+
+Thresholds<-c("1/0.05", "1.5/0.05", "2/0.05", "2.5/0.05", "3/0.05", "3/0.01", "3/0.005", "3/0.001")
+Genes_up_and_down_regulated<-c(2504, 1612, 950, 572, 355, 249, 217,167)
+embRBBP5thresholds<-data.frame(Thresholds,Genes_up_and_down_regulated)
+#make bar chart
+
+embRBBP5thresholds %>%                                     mutate(Thresholds = fct_reorder(Thresholds,desc(Genes_up_and_down_regulated))) %>% ggplot(aes(x=Thresholds,y=Genes_up_and_down_regulated))+geom_bar(stat="identity")+ theme(axis.text.x=element_text(size=10
+))
+
+#YAWDR5 Log2_1_pval_0.05
+1 down        390
+2 ns        17340
+3 up         1363
+
+#YAWDR5 Log2_1.5_pval_0.05
+1 down        187
+2 ns        17876
+3 up         1030
+
+#YAWDR5 Log2_2_pval_0.05
+1 down         94
+2 ns        18232
+3 up          767
+
+#YAWDR5 Log2_2.5_pval_0.05
+1 down         61
+2 ns        18496
+3 up          536
+
+#YAWDR5 Log2_3_pval_0.05
+1 down         35
+2 ns        18660
+3 up          398
+
+#YAWDR5 Log2_3_pval_0.01
+1 down         24
+2 ns        18835
+3 up          234
+
+#YAWDR5 Log2_3_pval_0.005
+1 down         23
+2 ns        18870
+3 up          200
+
+#YAWDR5 Log2_3_pval_0.001
+1 down         21
+2 ns        18918
+3 up          154
+
+#YARBBP5 Log2_1_pval_0.05
+1 down        813
+2 ns        15089
+3 up         3191
+
+#YARBBP5 Log2_1.5_pval_0.05
+1 down        181
+2 ns        16419
+3 up         2493
+
+#YARBBP5 Log2_2_pval_0.05
+1 down         79
+2 ns        17201
+3 up         1813
+
+#YARBBP5 Log2_2.5_pval_0.05
+1 down         51
+2 ns        17708
+3 up         1334
+
+#YARBBP5 Log2_3_pval_0.05
+1 down         32
+2 ns        18091
+3 up          970
+
+#YARBBP5 Log2_3_pval_0.01
+1 down         23
+2 ns        18427
+3 up          643
+
+#YARBBP5 Log2_3_pval_0.005
+1 down         22
+2 ns        18483
+3 up          588
+
+#YARBBP5 Log2_3_pval_0.001
+1 down         20
+2 ns        18603
+3 up          470
